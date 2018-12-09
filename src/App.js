@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
 import SearchPage from './SearchPage'
 import RootPage from './RootPage'
 import './App.css'
@@ -9,11 +10,8 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchPage />
-        ) : (
-          <RootPage />
-        )}
+        <Route exact path="/" component={RootPage} />
+        <Route path="/search" component={SearchPage} />
       </div>
     )
   }

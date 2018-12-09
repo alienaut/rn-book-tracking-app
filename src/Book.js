@@ -19,7 +19,7 @@ class Book extends Component {
       }))
     }
 
-    thumbnail.src = book.imageLinks.smallThumbnail
+    thumbnail.src = book.imageLinks && book.imageLinks.smallThumbnail
   }
 
   render() {
@@ -34,7 +34,7 @@ class Book extends Component {
               style={{
                 width: this.state.thumbnailWidth,
                 height: this.state.thumbnailHeight,
-                backgroundImage: `url(${book.imageLinks.smallThumbnail})`
+                backgroundImage: `url(${book.imageLinks && book.imageLinks.smallThumbnail})`
               }}>
             </div>
             <div className="book-shelf-changer">
@@ -57,4 +57,4 @@ class Book extends Component {
   }
  }
 
-export default Book;
+export default Book

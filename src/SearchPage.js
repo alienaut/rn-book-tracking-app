@@ -5,7 +5,7 @@ import * as BooksAPI from './utils/BooksAPI'
 
 class SearchPage extends Component {
   state = {
-    books: [],
+    searchedBooks: [],
     query: ''
   }
 
@@ -20,17 +20,17 @@ class SearchPage extends Component {
   fetchBooks = () => {
     const { query } = this.state
     BooksAPI.search(query)
-      .then((books) => {
+      .then((searchedBooks) => {
         // if some books array returns from server, assign it to the state
         // otherwise assign empty array
-        books && books.constructor === Array
-          ? this.setState(() => ({ books }) )
-          : this.setState(() => ({ books: [] }) )
+        searchedBooks && searchedBooks.constructor === Array
+          ? this.setState(() => ({ searchedBooks }))
+          : this.setState(() => ({ searchedBooks: [] }))
       })
   }
 
   render() {
-    const { books, query } = this.state
+    const { searchedBooks, query } = this.state
 
     return (
       <div className="search-books">
@@ -46,8 +46,8 @@ class SearchPage extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-            { books.map(book => <Book
+        <ol className="books-grid">
+            { searchedBooks.map(book => <Book
               key={book.id}
               book={book}
             />)}

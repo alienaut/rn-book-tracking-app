@@ -3,10 +3,11 @@ import * as BooksAPI from './utils/BooksAPI'
 
 class Book extends Component {
   state = {
-    shelf:'none',
-    thumbnailWidth: 0,
-    thumbnailHeight: 0
+    shelf:'none'
   }
+
+  abortController = new AbortController();
+  signal = this.abortController.signal;
 
   updateShelf = (event) => {
     const value = event.target.value
@@ -17,23 +18,10 @@ class Book extends Component {
 
   componentDidMount() {
     const { book } = this.props
-
-    // get thumbnail dimensions and assign it ot the state
-    const thumbnail = new Image()
-
-    thumbnail.onload = () => {
-      this.setState(() => ({
-        thumbnailWidth: thumbnail.width,
-        thumbnailHeight: thumbnail.height
-      }))
-    }
-
-    thumbnail.src = book.imageLinks && book.imageLinks.smallThumbnail
-
     // set current shelf
     BooksAPI.get(book.id)
       .then(book => {
-        this.setState(() => ({ shelf: book.shelf || 'none' }))
+        this.setState({ shelf: book.shelf || 'none' })
       })
   }
 
@@ -48,8 +36,6 @@ class Book extends Component {
             <div
               className="book-cover"
               style={{
-                width: this.state.thumbnailWidth,
-                height: this.state.thumbnailHeight,
                 backgroundImage: `url(${book.imageLinks && book.imageLinks.smallThumbnail})`
               }}>
             </div>

@@ -33,7 +33,7 @@ class BooksApp extends React.Component {
           <RootPage books={books} onShelfUpdate={this.onShelfUpdate} />
         )} />
         <Route path="/search" render={() => (
-          <SearchPage  onShelfUpdate={this.onShelfUpdate} />
+          <SearchPage  onShelfUpdate={this.onShelfUpdate} books={books} />
         )} />
       </div>
     )

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import * as BooksAPI from './utils/BooksAPI'
 
 class Book extends Component {
   state = {
@@ -17,12 +16,17 @@ class Book extends Component {
   }
 
   componentDidMount() {
-    const { book } = this.props
-    // set current shelf
-    BooksAPI.get(book.id)
-      .then(book => {
-        this.setState({ shelf: book.shelf || 'none' })
-      })
+    // set shelf state
+    const { book, books } = this.props
+
+    book.shelf && this.setState(() => ({ shelf: book.shelf }))
+    // if book.shelf does not exist search shelf data books array which is a
+    // state in App component
+    !book.shelf && this.setState(() => {
+      for(let i = 0, l = books.length; i < l; i++) {
+        if(book.id === books[i].id) return { shelf: books[i].shelf }
+      }
+    })
   }
 
   render() {

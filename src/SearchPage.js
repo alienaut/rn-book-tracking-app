@@ -19,6 +19,7 @@ class SearchPage extends Component {
 
   fetchBooks = () => {
     const { query } = this.state
+
     BooksAPI.search(query)
       .then((searchedBooks) => {
         // if some books array returns from server, assign it to the state
@@ -31,7 +32,7 @@ class SearchPage extends Component {
 
   render() {
     const { searchedBooks, query } = this.state
-    const { onShelfUpdate } = this.props
+    const { onShelfUpdate, books } = this.props
 
     return (
       <div className="search-books">
@@ -51,6 +52,7 @@ class SearchPage extends Component {
             { searchedBooks.map(book => <Book
               key={book.id}
               book={book}
+              books={books}
               onShelfUpdate={onShelfUpdate}
             />)}
           </ol>

@@ -10,9 +10,18 @@ class BooksApp extends React.Component {
     books: []
   }
 
-  componentDidMount() {
+  onShelfUpdate = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      .then(() => this.fetchBooks())
+  }
+
+  fetchBooks = () => {
     BooksAPI.getAll()
       .then((books) => { this.setState(() => ({ books })) })
+  }
+
+  componentDidMount() {
+    this.fetchBooks()
   }
 
   render() {
@@ -21,9 +30,11 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <RootPage books={books}/>
+          <RootPage books={books} onShelfUpdate={this.onShelfUpdate} />
         )} />
-        <Route path="/search" component={SearchPage} />
+        <Route path="/search" render={() => (
+          <SearchPage  onShelfUpdate={this.onShelfUpdate} />
+        )} />
       </div>
     )
   }

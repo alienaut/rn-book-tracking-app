@@ -1,9 +1,18 @@
 import React, { Component } from 'react'
+import * as BooksAPI from './utils/BooksAPI'
 
 class Book extends Component {
   state = {
+    shelf:'none',
     thumbnailWidth: 0,
     thumbnailHeight: 0
+  }
+
+  updateShelf = (event) => {
+    const value = event.target.value
+    const { book, onShelfUpdate } = this.props
+
+    this.setState(() => ({ shelf: value }), onShelfUpdate(book, value))
   }
 
   componentDidMount() {
@@ -20,10 +29,17 @@ class Book extends Component {
     }
 
     thumbnail.src = book.imageLinks && book.imageLinks.smallThumbnail
+
+    // set current shelf
+    BooksAPI.get(book.id)
+      .then(book => {
+        this.setState(() => ({ shelf: book.shelf || 'none' }))
+      })
   }
 
   render() {
     const { book } = this.props
+    const { shelf } = this.state
 
     return (
       <li>
@@ -38,7 +54,7 @@ class Book extends Component {
               }}>
             </div>
             <div className="book-shelf-changer">
-              <select>
+              <select value={shelf} onChange={this.updateShelf}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>

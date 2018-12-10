@@ -31,6 +31,7 @@ class SearchPage extends Component {
 
   render() {
     const { searchedBooks, query } = this.state
+    const { onShelfUpdate } = this.props
 
     return (
       <div className="search-books">
@@ -50,6 +51,7 @@ class SearchPage extends Component {
             { searchedBooks.map(book => <Book
               key={book.id}
               book={book}
+              onShelfUpdate={onShelfUpdate}
             />)}
           </ol>
         </div>

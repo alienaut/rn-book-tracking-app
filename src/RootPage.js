@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
 
@@ -43,6 +44,11 @@ const RootPage = ({ books, onShelfUpdate }) => {
       </div>
     </div>
   )
+}
+
+RootPage.propTypes = {
+  onShelfUpdate: PropTypes.func.isRequired,
+  books: PropTypes.array.isRequired
 }
 
 export default RootPage

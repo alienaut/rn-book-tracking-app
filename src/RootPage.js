@@ -4,14 +4,11 @@ import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
 
 const RootPage = ({ books, onShelfUpdate }) => {
-  const currentlyReading = books
-    .filter(book => book.shelf === 'currentlyReading')
-
-  const wantToRead = books
-    .filter(book => book.shelf === 'wantToRead')
-
-  const read = books
-    .filter(book => book.shelf === 'read')
+  const shelves = [
+    { title: 'Currently Reading', slug: 'currentlyReading'},
+    { title: 'Want to Read', slug: 'wantToRead'},
+    { title: 'Read', slug: 'read' }
+  ]
 
   return (
     <div className="list-books">
@@ -20,21 +17,15 @@ const RootPage = ({ books, onShelfUpdate }) => {
       </div>
       <div className="list-books-content">
         <div>
-          <BookShelf
-            title="Currently Reading"
-            books={currentlyReading}
-            onShelfUpdate={onShelfUpdate}
-          />
-          <BookShelf
-            title="Want to Read"
-            books={wantToRead}
-            onShelfUpdate={onShelfUpdate}
-          />
-          <BookShelf
-            title="Read"
-            books={read}
-            onShelfUpdate={onShelfUpdate}
-          />
+          { shelves.map(shelf => (
+            <BookShelf
+              key={shelf.slug}
+              title={shelf.title}
+              slug={shelf.slug}
+              books={books}
+              onShelfUpdate={onShelfUpdate}
+            />
+          ))}
         </div>
       </div>
       <div className="open-search">

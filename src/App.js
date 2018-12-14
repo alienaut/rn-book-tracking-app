@@ -11,8 +11,15 @@ class BooksApp extends React.Component {
   }
 
   onShelfUpdate = (book, shelf) => {
+    const updateBookState = (prevState) => ({
+      books: [
+        ...prevState.books.filter(b => b.id !== book.id),
+        { ...book, shelf }
+      ]
+    })
+
     BooksAPI.update(book, shelf)
-      .then(() => this.fetchBooks())
+      .then(this.setState(updateBookState))
   }
 
   fetchBooks = () => {
